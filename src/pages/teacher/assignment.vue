@@ -1,5 +1,5 @@
 <template>
-  <div class='assignment'>
+  <div class='te-assignment'>
     <div class="assignment-container">
       <div>
         <span style="display: inline-block; margin-right: 15px">作业标题</span><span
@@ -155,7 +155,7 @@
 </script>
 
 <style lang="scss">
-  .assignment {
+  .te-assignment {
     padding: 30px 50px;
     background-color: #f5f7f9;
     min-height: 100vh;
