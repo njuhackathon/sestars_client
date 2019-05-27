@@ -32,19 +32,33 @@
             <x-icon class="custom-class"></x-icon>
           </div>
           <div class="text">
-            <el-input placeholder="请输入题目文字" type="textarea"
-                      :rows="2" v-model="question.title"/>
+            <div>
+              <span style="display: inline-block; vertical-align: top; margin-right: 15px">题目</span>
+              <span style="display: inline-block; width: 80%">
+              <el-input placeholder="请输入题目文字" type="textarea"
+                        :rows="2" v-model="question.title"/>
+                </span>
+            </div>
+            <div style="margin-top: 15px">
+              <span style="display: inline-block; vertical-align: top;margin-right: 15px">分值</span>
+              <el-input-number v-model="question.score" :precision="1" :step="0.5"></el-input-number>
+            </div>
           </div>
-          <el-upload
-            :limit="1"
-            class="avatar-uploader"
-            action="http://47.100.97.128:8000/file/img"
-            :show-file-list="false"
-            :on-success="(res,file,value) => handleSuccess(i, res,file,value)"
-            :before-upload="beforeUpload">
-            <img v-if="question.imageUrl" :src="question.imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          <div>
+            <span style="display: inline-block; vertical-align: top;margin-right: 15px">配图</span>
+            <span style="display: inline-block;">
+            <el-upload
+              :limit="1"
+              class="avatar-uploader"
+              action="http://47.100.97.128:8000/file/img"
+              :show-file-list="false"
+              :on-success="(res,file,value) => handleSuccess(i, res,file,value)"
+              :before-upload="beforeUpload">
+              <img v-if="question.imageUrl" :src="question.imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            </span>
+          </div>
         </div>
       </div>
       <div class="footer">
@@ -63,14 +77,15 @@
   export default {
     name: 'assignment',
     components: {Question, XIcon},
-    created(){
+    created () {
       this.getMyClassrooms()
     },
     data () {
       return {
         questions: [{
           title: '',
-          imageUrl: ''
+          imageUrl: '',
+          score: 0
         }],
         title: '',
         endTime: new Date(),
@@ -109,7 +124,8 @@
       addQuestion: function () {
         this.questions.push({
           title: '',
-          imageUrl: ''
+          imageUrl: '',
+          score: 0
         })
       },
       deleteQuestion: function (i) {

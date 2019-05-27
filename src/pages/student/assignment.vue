@@ -17,23 +17,25 @@
     <div class="question-container">
       <div>
         <div class="title">题目描述</div>
-        <p>{{assignment.questionList[ci].title}}</p>
+        <p>({{assignment.questionList[ci].score}}分){{assignment.questionList[ci].title}}</p>
         <img v-if="assignment.questionList[ci].imageUrl !== ''" :src="assignment.questionList[ci].imageUrl" width="300"
              height="200">
       </div>
       <div class="title" style="margin-top: 10px">解答区域</div>
       <el-input type="textarea" :autosize="{ minRows: 2}" placeholder="在这里回答" v-model="answers[ci].text"></el-input>
       <div class="image-container">
-        <!--<el-upload-->
-          <!--class="upload-demo"-->
-          <!--action="https://jsonplaceholder.typicode.com/posts/"-->
-          <!--:on-preview="handlePreview"-->
-          <!--:on-remove="handleRemove"-->
-          <!--:file-list="fileList"-->
-          <!--list-type="picture">-->
-          <!--<el-button size="small" type="primary">上传图片</el-button>-->
-          <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
-        <!--</el-upload>-->
+        <el-upload
+          ref="upload"
+          class="upload-demo"
+          action="http://47.100.97.128:8000/file/img"
+          :on-success="handleSuccess"
+          :on-remove="handleRemove"
+          list-type="picture-card"
+          :file-list="answers[ci].imageUrls"
+          :limit="4">
+          <el-button size="small" type="primary">上传图片</el-button>
+          <div slot="tip" class="el-upload__tip">最多上传4张</div>
+        </el-upload>
       </div>
     </div>
     <div style="text-align: center">
@@ -52,10 +54,19 @@
       return {
         ci: 0,
         notShowNumber: true,
-        assignment: {},
-        answers: []
+        assignment: {
+          questionList: [{title: '', imageUrl: ''}]
+        },
+        answers: [{text: ''}],
       }
     }, methods: {
+      handleSuccess: function (res, file, fileList) {
+        file.myUrl = "http://47.100.97.128:8000/file/img/" + res.data
+        this.answers[this.ci].imageUrls = fileList
+      },
+      handleRemove: function (file, fileList) {
+        this.answers[this.ci].imageUrls = fileList
+      },
       jump: function (i) {
         this.ci = i
         this.notShowNumber = true
@@ -65,7 +76,13 @@
         API.post('/student/commitment/', {
           studentUsername,
           assignmentId: this.assignment.id,
-          answerList: this.answers
+          answerList: this.answers.map(answer => {
+            return {
+              questionId: answer.questionId,
+              text: answer.text,
+              imageUrls: answer.imageUrls.map(obj => obj.myUrl)
+            }
+          })
         })
         this.notShowNumber = true
         this.$router.push('/student/home')
@@ -75,6 +92,7 @@
       let id = this.$route.query.id
       API.get(`/student/assignment/?assignmentId=${id}`).then(res => {
         this.assignment = res.data;
+        this.answers = []
         for (let i = 0; i < this.assignment.questionList.length; i++) {
           this.answers.push({
             questionId: this.assignment.questionList[i].id,
@@ -125,6 +143,10 @@
     }
     .image-container {
       margin-top: 15px;
+    }
+
+    .el-upload-list__item {
+      transition: all 0s !important;
     }
   }
 </style>

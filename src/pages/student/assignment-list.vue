@@ -1,6 +1,6 @@
 <template>
   <div class='assignment-list'>
-    <div style="margin-bottom: 10px">待写的作业</div>
+    <div style="margin-bottom: 10px">进行中的作业</div>
     <div v-if="assignments.length === 0" style="text-align: center; color: #aaa">暂无作业</div>
     <div v-for="(assignment,i) in assignments" style="margin-bottom: 15px">
       <el-card>
