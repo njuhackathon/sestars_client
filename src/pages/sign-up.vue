@@ -61,7 +61,7 @@
           if (type === 0) {
             this.$router.push('/teacher/classroom')
           } else if (type === 1) {
-            this.$router.push('/student/assignment-list')
+            this.$router.push('/student/home')
           } else {
             this.$router.push('/parent')
           }

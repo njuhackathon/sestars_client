@@ -8,6 +8,7 @@ function get (path, config) {
       baseURL,
       responseType: 'json',
     }).then(res => {
+      console.log(res)
       if (res.status === 200) {
         if (res.data.success === true) {
           resolve(res.data)

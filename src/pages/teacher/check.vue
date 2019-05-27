@@ -2,7 +2,7 @@
   <div class='check'>
     <el-card>
       <div slot="header" class="clearfix">
-        <span>批改作业</span>
+        <span>作业管理</span>
         <div style="float: right">
           <el-switch
             v-model="type"

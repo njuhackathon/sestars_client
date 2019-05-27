@@ -11,6 +11,8 @@ import AssignmentList from '../pages/student/assignment-list'
 import StuAssignment from '../pages/student/assignment'
 import Check from '../pages/teacher/check'
 import CheckDetail from '../pages/teacher/check-detail'
+import Sheet from '../pages/teacher/sheet'
+import StuHome from '../pages/student/student-home'
 
 Vue.use(Router)
 
@@ -45,19 +47,23 @@ export default new Router({
         path: 'check-detail',
         name: 'CheckDetail',
         component: CheckDetail
+      },{
+        path: 'sheet',
+        name: 'Sheet',
+        component: Sheet
       }]
     },
     {
       path: '/student',
       component: StudentIndex,
       children: [{
-        path: 'assignment-list',
-        name: 'AssignmentList',
-        component: AssignmentList
-      }, {
         path: 'assignment',
         name: 'Assignment',
         component: StuAssignment
+      },{
+        path: 'home',
+        name: 'StuHome',
+        component: StuHome
       }]
     }
   ]

@@ -6,8 +6,8 @@
     </section>
     <div style="margin-bottom: 10px">可加入的班级</div>
     <div>
-      <div v-for="classroom in notJoinedClassrooms" style="margin: 10px 0">
-        <classroom-card :joined="false" :name="classroom.classroomName"></classroom-card>
+      <div v-for="(classroom,i) in notJoinedClassrooms" style="margin: 10px 0">
+        <classroom-card :joined="false" :name="classroom.classroomName" @join="joinClassroom(i)"></classroom-card>
       </div>
     </div>
   </div>
@@ -34,18 +34,29 @@
     },
     methods: {
       getMyClassroom: function () {
-        let studentUsename = localStorage.getItem("username")
-        API.get(`/student/classroom/?studentUsername=${studentUsename}`).then(res => {
+        let studentUsername = localStorage.getItem("username")
+        API.get(`/student/classroom/?studentUsername=${studentUsername}`).then(res => {
           if (res.success) {
             this.myClassroom = res.data;
+            console.log(this.myClassroom)
           }
         })
       },
       getNotJoinedClassrooms: function () {
-        let studentUsename = localStorage.getItem("username")
-        API.get(`/student/classroom/not-join?studentUsername=${studentUsename}`).then(res => {
+        let studentUsername = localStorage.getItem("username")
+        API.get(`/student/classroom/not-join?studentUsername=${studentUsername}`).then(res => {
           if (res.success) {
             this.notJoinedClassrooms = res.data;
+          }
+        })
+      },
+      joinClassroom: function (i) {
+        let studentUsername = localStorage.getItem("username")
+        API.get(`/student/classroom/join?studentUsername=${studentUsername}&classroomId=${this.notJoinedClassrooms[i].id}`).then(res => {
+          if (res.success) {
+            this.$message.success('加入成功')
+            this.getMyClassroom()
+            this.getNotJoinedClassrooms()
           }
         })
       }

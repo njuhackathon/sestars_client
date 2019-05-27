@@ -11,6 +11,20 @@
           type="datetime"
           placeholder="选择截止日期时间">
         </el-date-picker>
+        <span style="display: inline-block; margin: 0 15px">选择班级</span>
+        <el-select
+          v-model="toClassrooms"
+          multiple
+          collapse-tags
+          style="margin-left: 20px;"
+          placeholder="请选择">
+          <el-option
+            v-for="classroom in classrooms"
+            :key="classroom.id"
+            :label="classroom.classroomName"
+            :value="classroom.id">
+          </el-option>
+        </el-select>
       </div>
       <div v-for="(question,i) in questions" :key="i">
         <div class='question'>
@@ -49,6 +63,9 @@
   export default {
     name: 'assignment',
     components: {Question, XIcon},
+    created(){
+      this.getMyClassrooms()
+    },
     data () {
       return {
         questions: [{
@@ -57,9 +74,21 @@
         }],
         title: '',
         endTime: new Date(),
+        classrooms: [],
+        toClassrooms: []
       }
     },
     methods: {
+      getMyClassrooms: function () {
+        let teacherUsername = localStorage.getItem("username");
+        API.get(`/teacher/classroom/my?teacherUsername=${teacherUsername}`).then(res => {
+          if (!res.success) {
+            this.$message.error('服务器故障')
+          } else {
+            this.classrooms = res.data
+          }
+        })
+      },
       publish: function () {
         if (this.title === '' || this.questions.length === 0) {
           this.$message.error('信息填写不完整')
@@ -70,9 +99,11 @@
           title: this.title,
           teacherUsername,
           endTime: this.endTime,
-          questionList: this.questions
+          questionList: this.questions,
+          classroomIds: this.toClassrooms
         }).then(res => {
           this.$message.success('发布成功')
+          this.$router.push('/teacher/check')
         })
       },
       addQuestion: function () {

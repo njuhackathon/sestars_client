@@ -38,6 +38,9 @@
     background-color: white;
     .name {
       line-height: 40px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
   }
 </style>
