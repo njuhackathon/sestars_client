@@ -20,7 +20,7 @@
       </div>
     </div>
     <div style="margin-top: 15px; display: flex; justify-content: space-between">
-      <div style="flex: 1"><span style="margin-right: 15px; display: inline-block">赋分</span>
+      <div style="flex: 1"><span style="margin-right: 15px; display: inline-block">本题满分 {{assignment.questionAnswers[qi].score}} 分</span>
         <el-input-number v-model="assignment.questionAnswers[qi].answers[ai].score" :precision="1" :step="0.5"
                          placeholder="赋分"></el-input-number>
       </div>
@@ -31,7 +31,7 @@
           下一个 ->
         </el-button>
         <el-button type="danger"
-                   @click="mark"
+                   @click="finish"
                    v-if="(assignment.questionAnswers.length-1 === qi) && (assignment.questionAnswers[qi].answers.length-1 === ai)">
           结束批改
         </el-button>
@@ -75,6 +75,15 @@
             return
           }
         }
+      },
+      finish: function(){
+        this.mark()
+        this.$router.push({
+          path: '/teacher/sheet',
+          query: {
+            id: this.assignmentId
+          }
+        })
       },
       mark: function () {
         let answer = this.assignment.questionAnswers[this.qi].answers[this.ai]

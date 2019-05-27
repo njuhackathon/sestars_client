@@ -21,12 +21,13 @@ export default new Router({
     {
       path: '/sign',
       name: 'SignUpPage',
-      component: SignUpPage
+      component: SignUpPage,
     },
     {
       path: '/login',
       name: 'LoginPage',
-      component: LoginPage
+      component: LoginPage,
+      alias: '/'
     },
     {
       path: '/teacher',
@@ -43,11 +44,11 @@ export default new Router({
         path: 'check',
         name: 'Check',
         component: Check
-      },{
+      }, {
         path: 'check-detail',
         name: 'CheckDetail',
         component: CheckDetail
-      },{
+      }, {
         path: 'sheet',
         name: 'Sheet',
         component: Sheet
@@ -60,7 +61,7 @@ export default new Router({
         path: 'assignment',
         name: 'Assignment',
         component: StuAssignment
-      },{
+      }, {
         path: 'home',
         name: 'StuHome',
         component: StuHome
