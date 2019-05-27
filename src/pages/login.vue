@@ -7,6 +7,7 @@
     </div>
     <div class="btn-wrapper">
       <mt-button type="primary" size="large" @click="login">登录</mt-button>
+      <mt-button type="plain" size="large" @click="goSign" style="margin-top: 15px">还没注册</mt-button>
     </div>
   </div>
 </template>
@@ -41,6 +42,9 @@
         }).catch(err => {
           this.$message.error('用户名不存在或密码不一致')
         })
+      },
+      goSign: function () {
+        this.$router.push('/sign')
       }
     }
   }
