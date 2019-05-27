@@ -20,7 +20,7 @@
       </div>
     </div>
     <div style="margin-top: 15px; display: flex; justify-content: space-between">
-      <div style="flex: 1"><span style="margin-right: 15px; display: inline-block">本题满分 {{assignment.questionAnswers[qi].score}} 分</span>
+      <div style="flex: 1"><span style="margin-right: 15px; display: inline-block">本题满分 {{assignment.questionAnswers[qi].question.score}} 分</span>
         <el-input-number v-model="assignment.questionAnswers[qi].answers[ai].score" :precision="1" :step="0.5"
                          placeholder="赋分"></el-input-number>
       </div>
